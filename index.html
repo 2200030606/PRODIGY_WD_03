@@ -1,0 +1,293 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Tic Tac Toe</title>
+<style>
+    body {
+        font-family: Arial, sans-serif;
+        text-align: center;
+        background-image: url(images/bgimg1.jpg);
+        background-size: cover;
+        
+    }
+
+    h1 {
+        color: white;
+        font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
+        font-size: 80px;
+    }
+
+    .container {
+        display: inline-block;
+    }
+
+    .card {
+        width: 300px;
+        height: 400px;
+        border-radius: 20px;
+        padding: 5px;
+        box-shadow: rgba(151, 65,252, 0.2) 0 15px 30px -5px;
+        background-image: linear-gradient(144deg,#AF40FF, #5B42F3 50%,#00DDEB);
+    }
+
+    .card__content {
+        background: rgb(5, 6, 45);
+        border-radius: 17px;
+        width: 100%;
+        height: 100%;
+        padding: 20px;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+    }
+
+    .board {
+        border-collapse: collapse;
+        margin-bottom: 20px;
+    }
+
+    .board td {
+        width: 80px;
+        height: 80px;
+        border: 2px solid #ffffff;
+        font-size: 30px;
+        cursor: pointer;
+        color: white;
+    }
+
+    button {
+        --glow-color: rgb(217, 176, 255);
+        --glow-spread-color: rgba(191, 123, 255, 0.781);
+        --enhanced-glow-color: rgb(231, 206, 255);
+        --btn-color: rgb(100, 61, 136);
+        border: .25em solid var(--glow-color);
+        padding: 1em 3em;
+        color: var(--glow-color);
+        font-size: 15px;
+        font-weight: bold;
+        background-color: var(--btn-color);
+        border-radius: 1em;
+        outline: none;
+        box-shadow: 0 0 1em .25em var(--glow-color),
+                0 0 4em 1em var(--glow-spread-color),
+                inset 0 0 .75em .25em var(--glow-color);
+        text-shadow: 0 0 .5em var(--glow-color);
+        position: relative;
+        transition: all 0.3s;
+    }
+
+    button::after {
+        pointer-events: none;
+        content: "";
+        position: absolute;
+        top: 120%;
+        left: 0;
+        height: 100%;
+        width: 100%;
+        background-color: var(--glow-spread-color);
+        filter: blur(2em);
+        opacity: .7;
+        transform: perspective(1.5em) rotateX(35deg) scale(1, .6);
+    }
+
+    button:hover {
+        color: var(--btn-color);
+        background-color: var(--glow-color);
+        box-shadow: 0 0 1em .25em var(--glow-color),
+                0 0 4em 2em var(--glow-spread-color),
+                inset 0 0 .75em .25em var(--glow-color);
+    }
+
+    button:active {
+        box-shadow: 0 0 0.6em .25em var(--glow-color),
+                0 0 2.5em 2em var(--glow-spread-color),
+                inset 0 0 .5em .25em var(--glow-color);
+    }
+
+    .winner {
+        background-color: rgb(217, 176, 255);
+        color: rgb(100, 61, 136);
+    }
+
+   .result-card {
+    width: 300px;
+    height: 100px;
+    border-radius: 20px;
+    padding: 10px;
+    box-shadow: rgba(151, 65, 252, 0.2) 0 15px 30px -5px;
+    background-image: linear-gradient(144deg,#AF40FF, #5B42F3 50%,#00DDEB);
+    color: white;
+    display: none;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
+
+    .blur {
+        filter: blur(5px);
+        pointer-events: none;
+    }
+
+    .result-card.show {
+        display: block;
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+    }
+
+  @keyframes playerTurnAnimation {
+    0% {
+      font-size: 20px;
+      color: #ff9900;
+    }
+    50% {
+      font-size: 22px;
+      color: #00d9ff;
+    }
+    100% {
+      font-size: 20px;
+      color: #00ff0d;
+    }
+  }
+
+  #player-turn {
+    animation: playerTurnAnimation 2s infinite;
+  }
+
+  #win-card , #result-card , #draw-card {
+    margin-left: 20px;
+      margin-top: -140px;
+  }
+
+</style>
+</head>
+<body>
+    <h1 style="font-family:Cambria, Cochin, Georgia, Times, 'Times New Roman', serif">Tic Tac Toe</h1>
+    <div class="container">
+        <div class="card">
+            <div class="card__content">
+                <p id="player-turn">Player X's turn</p>
+                <table class="board">
+                    <tr>
+                        <td id="cell-0" onclick="placeMarker(0)"></td>
+                        <td id="cell-1" onclick="placeMarker(1)"></td>
+                        <td id="cell-2" onclick="placeMarker(2)"></td>
+                    </tr>
+                    <tr>
+                        <td id="cell-3" onclick="placeMarker(3)"></td>
+                        <td id="cell-4" onclick="placeMarker(4)"></td>
+                        <td id="cell-5" onclick="placeMarker(5)"></td>
+                    </tr>
+                    <tr>
+                        <td id="cell-6" onclick="placeMarker(6)"></td>
+                        <td id="cell-7" onclick="placeMarker(7)"></td>
+                        <td id="cell-8" onclick="placeMarker(8)"></td>
+                    </tr>
+                </table>
+                <button onclick="reset()">Restart</button>
+            </div>
+        </div>
+    </div>
+    <div class="result-card" id="win-card">
+        <h2>Winning Message:</h2>
+        <p id="result"></p>
+    </div>
+    <div class="result-card" id="draw-card">
+        <h2>Draw Message:</h2>
+        <p id="draw-message"></p>
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.5.1/dist/confetti.browser.min.js"></script>
+    <script>
+        let currentPlayer = 'X';
+        let cells = document.querySelectorAll('.board td');
+        let playerTurnElement = document.getElementById('player-turn');
+        let winCard = document.getElementById('win-card');
+        let drawCard = document.getElementById('draw-card');
+
+        function placeMarker(cellIndex) {
+            if (!cells[cellIndex].textContent) {
+                cells[cellIndex].textContent = currentPlayer;
+                if (checkWin()) {
+                    const winningCombo = checkWin();
+                    for (const index of winningCombo) {
+                        cells[index].classList.add('winner');
+                    }
+                    document.getElementById('result').textContent = `Player ${currentPlayer} wins!`;
+                    winCard.classList.add('show');
+
+                    // Trigger confetti effect
+                    confetti({
+                        particleCount: 400,
+                        spread: 100,
+                        origin: { y: 0.6 }
+                    });
+
+                    disableBoard();
+                } else if (checkDraw()) {
+                    document.getElementById('draw-message').textContent = 'It\'s a draw!';
+                    drawCard.classList.add('show');
+                    disableBoard();
+                } else {
+                    currentPlayer = currentPlayer === 'X' ? 'O' : 'X';
+                    playerTurnElement.textContent = `Player ${currentPlayer}'s turn`;
+                }
+            }
+        }
+
+        function checkWin() {
+            const winningCombos = [
+                [0, 1, 2],
+                [3, 4, 5],
+                [6, 7, 8],
+                [0, 3, 6],
+                [1, 4, 7],
+                [2, 5, 8],
+                [0, 4, 8],
+                [2, 4, 6]
+            ];
+            for (const combo of winningCombos) {
+                const [a, b, c] = combo;
+                if (cells[a].textContent === currentPlayer &&
+                    cells[b].textContent === currentPlayer &&
+                    cells[c].textContent === currentPlayer) {
+                    return combo;
+                }
+            }
+            return null;
+        }
+
+        function checkDraw() {
+            return [...cells].every(cell => cell.textContent !== '');
+        }
+
+        function disableBoard() {
+            cells.forEach(cell => {
+                cell.onclick = null;
+            });
+        }
+
+        function reset() {
+            cells.forEach(cell => {
+                cell.textContent = '';
+                cell.classList.remove('winner');
+                cell.onclick = function() {
+                    placeMarker(Array.from(cells).indexOf(cell));
+                };
+            });
+            document.getElementById('result').textContent = '';
+            document.getElementById('draw-message').textContent = '';
+            winCard.classList.remove('show');
+            drawCard.classList.remove('show');
+            document.querySelector('.container').classList.remove('blur');
+            currentPlayer = 'X';
+            playerTurnElement.textContent = `Player ${currentPlayer}'s turn`;
+        }
+    </script>
+</body>
+</html>
+
